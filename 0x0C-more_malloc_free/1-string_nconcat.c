@@ -3,23 +3,21 @@
 
 /**
  * _strlen - calculate and return string length
- * @str: string
+ * @string: string
  * Return: string length
  */
 
-unsigned int _strlen(char *str)
+int _strlen(char *string)
 {
-	unsigned int length = 0;
+	int i;
 
-	while (str && str[length] != '\0')
-	{
-		length++;
-	}
-	return (length);
+	for (i = 0; string[i] != '\0'; i++)
+		;
+	return (i);
 }
 
 /**
- * string_nconcat - concatenates s1 and n bytes of s2; return ptr to string
+ * string_nconcat - concatenate s1 and n bytes of s2; return ptr to string
  * @s1: string 1
  * @s2: string 2
  * @n: n bytes to concat from string 2
@@ -28,39 +26,31 @@ unsigned int _strlen(char *str)
 
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	unsigned int s1_len = _strlen(s1);
-	unsigned int s2_len = _strlen(s2);
-	unsigned int concat_len;
-	char *result;
-	unsigned int i;
-	unsigned int j;
+	char *ptr;
+	int num, len, i, j;
 
-	if (n >= s2_len)
-	{
-	concat_len = s1_len + s2_len;
-	}
-	else
-	{
-	concat_len = s1_len + n;
-	}
+	num = n;
 
-	result = malloc(concat_len + 1);
+	if (s1 == NULL) /* account for NULL strings */
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+	if (num < 0) /* account for negative n bytes */
+		return (NULL);
+	if (num >= _strlen(s2)) /* account for n too big */
+		num = _strlen(s2);
 
-	if (result == NULL)
-	{
-	return (NULL);
-	}
+	len = _strlen(s1) + num + 1; /* +1 to account for null pointer */
 
-	for (i = 0; i < s1_len; i++)
-	{
-		result[i] = s1[i];
-	}
+	ptr = malloc(sizeof(*ptr) * len); /* malloc and check for error */
+	if (ptr == NULL)
+		return (NULL);
 
-	for (j = 0; j < n && s2[j] != '\0'; j++)
-	{
-	result[s1_len + j] = s2[j];
-	}
+	for (i = 0; s1[i] != '\0'; i++) /* concat */
+		ptr[i] = s1[i];
+	for (j = 0; j < num; j++)
+		ptr[i + j] = s2[j];
+	ptr[i + j] = '\0';
 
-	result[concat_len] = '\0';
-	return (result);
+	return (ptr);
 }
