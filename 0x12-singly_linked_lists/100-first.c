@@ -1,10 +1,10 @@
 #include <stdio.h>
 
 /**
- * premain - Prints a specific message before main is executed
+ * premain - Prints a specific message before ain is executed
  */
-
 void __attribute__((constructor)) premain(void)
 {
-	printf("You're beat! and yet, you must allow,\nI bore my house upon my back!\n");
+	printf("You're beat! and yet, you must allow,\n");
+	printf("I bore my house upon my back!\n");
 }
